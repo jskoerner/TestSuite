@@ -22,10 +22,10 @@ def load_questions_from_csv(csv_path):
                 questions.append(question)
     return questions
 
-# Load questions from prompts.csv
-QUESTIONS = load_questions_from_csv("enhanced_model_agent/data/prompts.csv")
+# Load questions from prompts.csv (relative to this folder)
+QUESTIONS = load_questions_from_csv("data/prompts.csv")
 
-OUTPUT_FILE = "rag_batch_test_results.json"
+OUTPUT_FILE = "batch_test_results.json"
 
 
 def create_session():
@@ -74,6 +74,8 @@ def main():
             retriever_confidence = None
             original_message = None
             enhanced_message = None
+            answer_flagged = None
+            flagged_reasons = None
             
             # The response is a list of events, we need to find the one with the model's response
             for event in response:
@@ -88,6 +90,10 @@ def main():
                     original_message = state["original_user_message"]
                 if "enhanced_message" in state and state["enhanced_message"] is not None:
                     enhanced_message = state["enhanced_message"]
+                if "answer_flagged" in state:
+                    answer_flagged = state["answer_flagged"]
+                if "flagged_reasons" in state:
+                    flagged_reasons = state["flagged_reasons"]
 
             timing_info = {
                 "agent_start": agent_start_iso,
@@ -97,7 +103,9 @@ def main():
             state_info = {
                 "retriever_confidence": retriever_confidence,
                 "original_message": original_message,
-                "enhanced_message": enhanced_message
+                "enhanced_message": enhanced_message,
+                "answer_flagged": answer_flagged,
+                "flagged_reasons": flagged_reasons
             }
             results.append({
                 "question": question,
@@ -119,4 +127,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main() 

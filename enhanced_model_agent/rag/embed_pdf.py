@@ -1,9 +1,14 @@
+import numpy as np
 import os, re, tqdm, PyPDF2, pandas as pd
 from typing import List, Dict
 from sentence_transformers import SentenceTransformer
 
 def text_formatter(text: str) -> str:
     return re.sub(r'\s+', ' ', text.replace("\n", " ").strip())
+
+def clean_text(txt: str) -> str:
+    txt = txt.replace("•", "-").replace("–", "-")
+    return re.sub(r'\s+', ' ', txt)
 
 def split_into_sentences(text: str) -> List[str]:
     return [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if s.strip()]
@@ -23,7 +28,7 @@ def split_list(input_list: List[str], slice_size: int, overlap: int = 5) -> List
 def chunk_pdf_text(pages_and_texts: List[Dict], num_sentence_chunk_size: int = 20, overlap: int = 9) -> pd.DataFrame:
     all_chunks = []
     for item in pages_and_texts:
-        sentences = split_into_sentences(item["text"])
+        sentences = split_into_sentences(clean_text(item["text"]))
         for chunk in split_list(sentences, num_sentence_chunk_size, overlap):
             joined = " ".join(chunk)
             all_chunks.append({
@@ -38,7 +43,11 @@ def chunk_pdf_text(pages_and_texts: List[Dict], num_sentence_chunk_size: int = 2
 def embed_chunks(df: pd.DataFrame, model: SentenceTransformer, min_token_length: int = 30) -> List[Dict]:
     filtered = df[df["chunk_token_count"] > min_token_length].to_dict(orient="records")
     for item in tqdm.tqdm(filtered, desc="Generating Embeddings"):
-        item["embedding"] = model.encode(item["sentence_chunk"])
+        vec = model.encode(
+            item["sentence_chunk"],
+            normalize_embeddings=True
+        ).astype(np.float32)
+        item["embedding"] = vec
     return filtered
 
 def store_in_csv(chunks: List[Dict], csv_file_path: str = "embeddings.csv") -> None:
@@ -56,7 +65,7 @@ def embed_pdf_into_csv(pdf_path, embedding_model_name="sentence-transformers/all
 
 if __name__ == "__main__":
     embed_pdf_into_csv(
-        pdf_path="9-callbacks/enhanced_model_agent/data/nutrition_handbook.pdf",
-        embedding_model_name="sentence-transformers/all-MiniLM-L6-v2",
-        csv_file_path="9-callbacks/enhanced_model_agent/data/embeddings.csv"
+        pdf_path="enhanced_model_agent/data/nutrition_handbook.pdf",
+        embedding_model_name="BAAI/bge-large-en-v1.5",
+        csv_file_path="enhanced_model_agent/data/embeddings.csv"
     )

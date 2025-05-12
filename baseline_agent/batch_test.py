@@ -7,7 +7,7 @@ import csv
 
 # Configuration
 BASE_URL = "http://localhost:8000"  # Update if needed
-APP_NAME = "enhanced_model_agent"
+APP_NAME = "baseline_agent"
 USER_ID = "test1"
 
 def load_questions_from_csv(csv_path):
@@ -22,10 +22,10 @@ def load_questions_from_csv(csv_path):
                 questions.append(question)
     return questions
 
-# Load questions from prompts.csv
-QUESTIONS = load_questions_from_csv("enhanced_model_agent/data/prompts.csv")
+# Load questions from prompts.csv (relative to this folder)
+QUESTIONS = load_questions_from_csv("data/prompts.csv")
 
-OUTPUT_FILE = "rag_batch_test_results.json"
+OUTPUT_FILE = "batch_test_results.json"
 
 
 def create_session():
@@ -69,12 +69,10 @@ def main():
             agent_end_iso = datetime.utcnow().isoformat() + "Z"
             elapsed = agent_end - agent_start
 
-
             answer = ""
-            retriever_confidence = None
             original_message = None
-            enhanced_message = None
-            
+            answer_flagged = None
+            flagged_reasons = None
             # The response is a list of events, we need to find the one with the model's response
             for event in response:
                 if event.get("content") and event["content"].get("parts"):
@@ -82,12 +80,12 @@ def main():
                         if part.get("text"):
                             answer = part["text"]
                 state = event.get("actions", {}).get("state_delta", {})
-                if "retriever_confidence" in state and state["retriever_confidence"] is not None:
-                    retriever_confidence = state["retriever_confidence"]
                 if "original_user_message" in state and state["original_user_message"] is not None:
                     original_message = state["original_user_message"]
-                if "enhanced_message" in state and state["enhanced_message"] is not None:
-                    enhanced_message = state["enhanced_message"]
+                if "answer_flagged" in state:
+                    answer_flagged = state["answer_flagged"]
+                if "flagged_reasons" in state:
+                    flagged_reasons = state["flagged_reasons"]
 
             timing_info = {
                 "agent_start": agent_start_iso,
@@ -95,9 +93,9 @@ def main():
                 "elapsed": elapsed
             }
             state_info = {
-                "retriever_confidence": retriever_confidence,
                 "original_message": original_message,
-                "enhanced_message": enhanced_message
+                "answer_flagged": answer_flagged,
+                "flagged_reasons": flagged_reasons
             }
             results.append({
                 "question": question,
@@ -105,7 +103,7 @@ def main():
                 "state": state_info,
                 "timing": timing_info
             })
-            print(f"Q: {question}\nA: {answer}\nConfidence: {retriever_confidence}\nElapsed: {elapsed:.2f}s\n---")
+            print(f"Q: {question}\nA: {answer}\nElapsed: {elapsed:.2f}s\n---")
         except Exception as e:
             print(f"Error processing question '{question}': {e}")
             results.append({
@@ -119,4 +117,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main() 

@@ -13,10 +13,9 @@ from google.adk.models import LlmRequest, LlmResponse
 from google.genai import types
 from .rag.retriever import Retriever
 
-# Initialize the Retriever (do this once, globally)
 retriever = Retriever(
     csv_path="enhanced_model_agent/data/embeddings.csv",
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
+    model_name="BAAI/bge-large-en-v1.5"
 )
 
 def print_state_debug(label, state):
@@ -31,15 +30,7 @@ def print_state_debug(label, state):
         print(f"  <Could not print state: {e}>")
 
 def before_agent_callback(callback_context):
-    # Store both UNIX timestamp and readable string
     now = time.time()
-    # Initialize timing state if it doesn't exist
-    if "timing" not in callback_context.state:
-        callback_context.state["timing"] = {}
-    # Store agent start time
-    callback_context.state["timing"]["agent_start_time"] = now
-    callback_context.state["timing"]["agent_start_time_str"] = datetime.fromtimestamp(now).isoformat()
-    # Ensure timing is persisted in the root state
     callback_context.state["agent_start_time"] = now
     callback_context.state["agent_start_time_str"] = datetime.fromtimestamp(now).isoformat()
     print("Agent processing started.")
@@ -47,33 +38,14 @@ def before_agent_callback(callback_context):
     return None
 
 def after_agent_callback(callback_context):
-    # Store both UNIX timestamp and readable string
     now = time.time()
-    # Ensure timing state exists
-    if "timing" not in callback_context.state:
-        callback_context.state["timing"] = {}
-    # Store agent end time
-    callback_context.state["timing"]["agent_end_time"] = now
-    callback_context.state["timing"]["agent_end_time_str"] = datetime.fromtimestamp(now).isoformat()
-    # Ensure timing is persisted in the root state
     callback_context.state["agent_end_time"] = now
     callback_context.state["agent_end_time_str"] = datetime.fromtimestamp(now).isoformat()
-    
-    # Calculate and store elapsed time
-    agent_start = callback_context.state["timing"].get("agent_start_time")
+    agent_start = callback_context.state.get("agent_start_time")
     if agent_start:
         elapsed = now - agent_start
-        callback_context.state["timing"]["agent_elapsed_time"] = elapsed
         callback_context.state["agent_elapsed_time"] = elapsed
         print(f"Agent processing took {elapsed:.2f} seconds.")
-    
-    # Print RAG timing if available
-    rag_elapsed = callback_context.state.get("rag_elapsed_time")
-    if rag_elapsed:
-        print(f"RAG retrieval took {rag_elapsed:.2f} seconds.")
-    
-    # Ensure the timing state is preserved
-    callback_context.state["agent_timing"] = callback_context.state["timing"]
     print_state_debug("State at end of after_agent_callback", callback_context.state)
     return None
 
@@ -83,57 +55,56 @@ def before_model_callback(
     """
     Before model callback that:
     1. Logs request information
-    2. Rag 
-    3. Tracks request timing
+    2. RAG with multi-chunk prompt
     """
     # Get the state and agent name
     state = callback_context.state
     agent_name = callback_context.agent_name
 
     # Extract the last user message
-    last_user_message = ""
+    original_user_message = ""
     if llm_request.contents and len(llm_request.contents) > 0:
         for content in reversed(llm_request.contents):
             if content.role == "user" and content.parts and len(content.parts) > 0:
                 if hasattr(content.parts[0], "text") and content.parts[0].text:
-                    last_user_message = content.parts[0].text
+                    original_user_message = content.parts[0].text
                     break
 
-    # Time the RAG retrieval
-    rag_start = time.time()
-    retrieved_chunks = retriever.retrieve(last_user_message, top_k=1)
-    rag_elapsed = time.time() - rag_start
-    callback_context.state["rag_elapsed_time"] = rag_elapsed
+    # Store original message
+    state["original_user_message"] = original_user_message
+
+    # 1. Retrieve up to 3 best chunks (now returns text, page, score)
+    retrieved_chunks = retriever.retrieve(original_user_message, top_k=3)
+    BOOK_TITLE = "Food & Nutrition Handbook"
+
+    # 2. Build a numbered SOURCE block with book title and page
     if retrieved_chunks:
-        context, score = retrieved_chunks[0]
-        # Prepend the context to the user's message for the LLM
-        last_user_message = f"Context from nutrition handbook: {context}\n\nUser question: {last_user_message}"
-        state["retriever_confidence"] = float(score)
+        numbered_chunks = "\n\n".join(
+            f"[{i+1}] ({BOOK_TITLE}, p. {page if page is not None else '?'}) {txt}" for i, (txt, page, _) in enumerate(retrieved_chunks)
+        )
+        state["retriever_confidence"] = float(retrieved_chunks[0][2])
     else:
+        numbered_chunks = ""
         state["retriever_confidence"] = None
+
+    # 3. Compose the full prompt
+    prompt_text = (
+        f"### SOURCE\n{numbered_chunks}\n\n"
+        f"### QUESTION\n{original_user_message}\n\n"
+        f"### ANSWER\n"
+    )
+    state["enhanced_message"] = prompt_text  # keep for post-filter
+
+    # 4. Overwrite the *actual* user message that the model will see
+    llm_request.contents = [
+        types.Content(role="user", parts=[types.Part(text=prompt_text)])
+    ]
 
     # Log the request
     print(f"\n=== REQUEST STARTED at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ===")
     print(f"Agent: {agent_name}")
-    print(f"Message: {last_user_message[:100]}...")
-
-    # Store message for after callback
-    state["last_user_message"] = last_user_message
-
-    # Store model start time
-    now = time.time()
-    if "timing" not in callback_context.state:
-        callback_context.state["timing"] = {}
-    callback_context.state["timing"]["model_start_time"] = now
-    callback_context.state["timing"]["model_start_time_str"] = datetime.fromtimestamp(now).isoformat()
-    # Ensure timing is persisted in the root state
-    callback_context.state["model_start_time"] = now
-    callback_context.state["model_start_time_str"] = datetime.fromtimestamp(now).isoformat()
-    
-    # Start RAG timer just before retrieval
-    callback_context.state["timing"]["rag_start_time"] = time.time()
-    callback_context.state["rag_start_time"] = time.time()
-    print_state_debug("State at end of before_model_callback", callback_context.state)
+    print(f"Original message: {original_user_message}")
+    print(f"Enhanced message: {prompt_text[:100]}...")
     print("✓ Request approved for processing")
 
     return None
@@ -142,111 +113,76 @@ def after_model_callback(
     callback_context: CallbackContext, llm_response: LlmResponse
 ) -> Optional[LlmResponse]:
     """
-    After model callback that:
-    1. Transforms negative words to positive ones
-    2. Adds a signature with response time
-    3. Logs completion
+    Post-process the model output to flag answers that use values or cite sources not present in the context.
+    If answer_flagged is True, override the answer with 'I don't know.'
     """
-    # Skip if no response
-    if not llm_response or not llm_response.content or not llm_response.content.parts:
-        return None
-
-    # Get the state
     state = callback_context.state
-    
-    # Store model end time
-    now = time.time()
-    if "timing" not in callback_context.state:
-        callback_context.state["timing"] = {}
-    callback_context.state["timing"]["model_end_time"] = now
-    callback_context.state["timing"]["model_end_time_str"] = datetime.fromtimestamp(now).isoformat()
-    # Ensure timing is persisted in the root state
-    callback_context.state["model_end_time"] = now
-    callback_context.state["model_end_time_str"] = datetime.fromtimestamp(now).isoformat()
-    
-    # Calculate model elapsed time
-    model_start = callback_context.state["timing"].get("model_start_time")
-    if model_start:
-        elapsed = now - model_start
-        callback_context.state["timing"]["model_elapsed_time"] = elapsed
-        callback_context.state["model_elapsed_time"] = elapsed
-        print(f"Model processing took {elapsed:.2f} seconds.")
-    
-    # Calculate RAG elapsed time
-    rag_start = callback_context.state["timing"].get("rag_start_time")
-    if rag_start:
-        rag_elapsed = now - rag_start
-        callback_context.state["timing"]["rag_elapsed_time"] = rag_elapsed
-        callback_context.state["rag_elapsed_time"] = rag_elapsed
-    
-    # Ensure the timing state is preserved
-    callback_context.state["model_timing"] = callback_context.state["timing"]
-    # --- Ensure agent timing is also present in the root state ---
-    for key in [
-        "agent_start_time", "agent_start_time_str",
-        "agent_end_time", "agent_end_time_str",
-        "agent_elapsed_time"
-    ]:
-        if key in callback_context.state["timing"]:
-            callback_context.state[key] = callback_context.state["timing"][key]
-    print_state_debug("State at end of after_model_callback", callback_context.state)
-    
-    # Extract and modify the response text
+    context = state.get("enhanced_message", "")
+    flagged = False
+    flagged_reasons = []
+
+    # Extract the model's answer
     response_text = ""
-    for part in llm_response.content.parts:
-        if hasattr(part, "text") and part.text:
-            response_text += part.text
+    if llm_response and llm_response.content and llm_response.content.parts:
+        for part in llm_response.content.parts:
+            if hasattr(part, "text") and part.text:
+                response_text += part.text
+    state["llm_raw_response"] = response_text
 
-    if not response_text:
-        return None
+    # Check for citations not in context
+    import re
+    citations = re.findall(r'\(([^)]+)\)', response_text)
+    for citation in citations:
+        if citation.lower() not in context.lower():
+            flagged = True
+            flagged_reasons.append(f"Citation '{citation}' not found in context.")
 
-    # Word replacements for more positive language
-    replacements = {
-        "problem": "challenge",
-        "difficult": "complex",
-        "hard": "challenging",
-        "issue": "situation",
-        "bad": "suboptimal"
-    }
+    # Allow common metric-to-English conversions
+    ALLOWED_CONVERSIONS = {"2.2", "0.45", "0.454", "0.4536", "0.5", "1.61", "3.28"}  # kg<->lb, g/lb, km/mi, m/ft, etc.
 
-    # Perform replacements
-    modified_text = response_text
-    modified = False
-    for original, replacement in replacements.items():
-        if original in modified_text.lower():
-            modified_text = modified_text.replace(original, replacement)
-            modified_text = modified_text.replace(
-                original.capitalize(), replacement.capitalize()
-            )
-            modified = True
+    # Check for numbers not in context (simple heuristic)
+    numbers_in_answer = re.findall(r'\b\d+(?:\.\d+)?\b', response_text)
+    for number in numbers_in_answer:
+        if number not in context and number not in ALLOWED_CONVERSIONS:
+            flagged = True
+            flagged_reasons.append(f"Number '{number}' not found in context.")
 
-    # Add signature with response time
-    response_time = elapsed if "model_elapsed_time" in callback_context.state["timing"] else None
-    signature = f"\n\n[Response time: {response_time:.2f}s]"
-    modified_text += signature
+    if flagged:
+        state["answer_flagged"] = True
+        state["flagged_reasons"] = flagged_reasons
+        print(f"[GUARD] Answer flagged: {flagged_reasons}")
+        # Override the answer with abstention
+        abstain_text = "I don't know."
+        from google.genai.types import Content, Part
+        return LlmResponse(content=Content(role="model", parts=[Part(text=abstain_text)]))
+    else:
+        state["answer_flagged"] = False
 
-    # Create modified response
-    modified_parts = [copy.deepcopy(part) for part in llm_response.content.parts]
-    for i, part in enumerate(modified_parts):
-        if hasattr(part, "text") and part.text:
-            modified_parts[i].text = modified_text
-
-    print(f"=== REQUEST COMPLETED in {response_time:.2f}s ===")
-    
-    return LlmResponse(content=types.Content(role="model", parts=modified_parts))
+    print(f"=== REQUEST COMPLETED ===")
+    return llm_response
 
 # Create the Agent
 root_agent = LlmAgent(
     name="enhanced_model_agent",
     model="gemini-2.0-flash",
+    #temperature=0,
     description="An agent that demonstrates both before and after model callbacks",
     instruction="""
-    You are a helpful and positive assistant.
-    
+    You are a helpful, empathetic, and positive assistant.
+
     Your job is to:
     - Answer user questions concisely
     - Provide factual information
-    - Be friendly and respectful
+    - Be friendly, empathetic, and respectful
+    - Only answer using the provided context. If the answer is clearly stated or can be directly inferred from the context, use it in your answer.
+    - If the answer cannot be found or inferred from the context, respond with: "I'm here to help with nutrition and diet questions. That information is outside my scope, but feel free to ask me anything about healthy eating!"
+    - Do NOT use any information, numbers, or sources from outside the context, even if you know them.
+    - If the context provides a value in a different unit than the question, you may convert units only if the conversion is straightforward and commonly known (e.g., kilograms to pounds, 1 kg ≈ 2.2 lbs). Show your calculation.
+    - If multiple valid answers appear in the context (e.g., different age groups), list them all, citing the source, instead of saying 'I don't know.'
+    - If the context lists several valid values (e.g., children vs. adults), list them all with their labels instead of saying 'I don't know.'
+    - If the context gives a guideline that depends on body weight, state that guideline and explain how the user can calculate their own number.
+    - Cite the source from the context when possible. Do NOT cite any other sources.
+    - When citing a source, include the book title and page number as shown in the SOURCE block, e.g., (Food & Nutrition Handbook, p. 17) [1].
     """,
     before_agent_callback=before_agent_callback,
     after_agent_callback=after_agent_callback,
