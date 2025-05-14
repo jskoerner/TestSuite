@@ -23,9 +23,12 @@ def load_questions_from_csv(csv_path):
     return questions
 
 # Load questions from prompts.csv (relative to this folder)
-QUESTIONS = load_questions_from_csv("data/prompts.csv")
+#QUESTIONS = load_questions_from_csv("data/prompts.csv")
+QUESTIONS = load_questions_from_csv("data/stress_test_prompts.csv")
 
-OUTPUT_FILE = "batch_test_results.json"
+# Generate output file name with timestamp
+now_str = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+OUTPUT_FILE = f"batch_test_results_{now_str}.json"
 
 
 def create_session():
@@ -70,6 +73,7 @@ def main():
             elapsed = agent_end - agent_start
 
             answer = ""
+            initial_answer = None
             original_message = None
             answer_flagged = None
             flagged_reasons = None
@@ -78,6 +82,8 @@ def main():
                 if event.get("content") and event["content"].get("parts"):
                     for part in event["content"]["parts"]:
                         if part.get("text"):
+                            if initial_answer is None:
+                                initial_answer = part["text"]
                             answer = part["text"]
                 state = event.get("actions", {}).get("state_delta", {})
                 if "original_user_message" in state and state["original_user_message"] is not None:
@@ -99,11 +105,12 @@ def main():
             }
             results.append({
                 "question": question,
-                "answer": answer,
+                "initial_answer": initial_answer,
+                "final_answer": answer,
                 "state": state_info,
                 "timing": timing_info
             })
-            print(f"Q: {question}\nA: {answer}\nElapsed: {elapsed:.2f}s\n---")
+            print(f"Q: {question}\nInitial A: {initial_answer}\nFinal A: {answer}\nElapsed: {elapsed:.2f}s\n---")
         except Exception as e:
             print(f"Error processing question '{question}': {e}")
             results.append({

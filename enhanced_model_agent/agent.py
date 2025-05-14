@@ -6,6 +6,7 @@ import copy
 from datetime import datetime
 from typing import Optional
 import time
+import numpy as np
 
 from google.adk.agents import LlmAgent
 from google.adk.agents.callback_context import CallbackContext
@@ -73,14 +74,17 @@ def before_model_callback(
     # Store original message
     state["original_user_message"] = original_user_message
 
-    # 1. Retrieve up to 3 best chunks (now returns text, page, score)
-    retrieved_chunks = retriever.retrieve(original_user_message, top_k=3)
+    # 1. Retrieve up to 10 best chunks (hybrid dense + BM25, already reranked)
+    retrieved_chunks = retriever.retrieve(original_user_message, top_k=10)
+    # Drop all chunks if the best cross‑encoder score is too low (recall guard)
+    # if retrieved_chunks and retrieved_chunks[0][2] < -1.0:
+    #     retrieved_chunks = []
     BOOK_TITLE = "Food & Nutrition Handbook"
 
     # 2. Build a numbered SOURCE block with book title and page
     if retrieved_chunks:
         numbered_chunks = "\n\n".join(
-            f"[{i+1}] ({BOOK_TITLE}, p. {page if page is not None else '?'}) {txt}" for i, (txt, page, _) in enumerate(retrieved_chunks)
+            f"[{i+1}] ({BOOK_TITLE}) {txt}" for i, (txt, page, _) in enumerate(retrieved_chunks)
         )
         state["retriever_confidence"] = float(retrieved_chunks[0][2])
     else:
@@ -127,6 +131,7 @@ def after_model_callback(
         for part in llm_response.content.parts:
             if hasattr(part, "text") and part.text:
                 response_text += part.text
+    state["initial_answer"] = response_text  # Store the initial answer
     state["llm_raw_response"] = response_text
 
     # Check for citations not in context
@@ -148,15 +153,16 @@ def after_model_callback(
             flagged_reasons.append(f"Number '{number}' not found in context.")
 
     if flagged:
+        print(f"[GUARD] Answer flagged: {flagged_reasons}")
         state["answer_flagged"] = True
         state["flagged_reasons"] = flagged_reasons
-        print(f"[GUARD] Answer flagged: {flagged_reasons}")
         # Override the answer with abstention
         abstain_text = "I don't know."
         from google.genai.types import Content, Part
         return LlmResponse(content=Content(role="model", parts=[Part(text=abstain_text)]))
     else:
         state["answer_flagged"] = False
+        state["flagged_reasons"] = []  # Clear flagged reasons when not flagged
 
     print(f"=== REQUEST COMPLETED ===")
     return llm_response
@@ -165,7 +171,6 @@ def after_model_callback(
 root_agent = LlmAgent(
     name="enhanced_model_agent",
     model="gemini-2.0-flash",
-    #temperature=0,
     description="An agent that demonstrates both before and after model callbacks",
     instruction="""
     You are a helpful, empathetic, and positive assistant.
@@ -182,8 +187,29 @@ root_agent = LlmAgent(
     - If the context lists several valid values (e.g., children vs. adults), list them all with their labels instead of saying 'I don't know.'
     - If the context gives a guideline that depends on body weight, state that guideline and explain how the user can calculate their own number.
     - Cite the source from the context when possible. Do NOT cite any other sources.
-    - When citing a source, include the book title and page number as shown in the SOURCE block, e.g., (Food & Nutrition Handbook, p. 17) [1].
+    - When citing, include only the book title and chunk number as shown in the SOURCE block, e.g., (Food & Nutrition Handbook) [1]. Do not include page numbers.
+    - Never invent page numbers or cite any other sources.
+    - When citing, use the exact string from SOURCE, one per parenthesis; e.g. (Food & Nutrition Handbook) [1].
+    - When citing, list exactly one chunk per parenthesis, copied verbatim from the SOURCE block. Do not combine multiple chunks in a single citation.
+
+    Example:
+    SOURCE:
+    [1] (Food & Nutrition Handbook) ...brown rice...
+    [2] (Food & Nutrition Handbook) ...porridge...
+    [3] (Food & Nutrition Handbook) ...porridge...
+
+    QUESTION:
+    What can you tell me about brown rice and porridge?
+
+    ANSWER:
+    Brown rice is a source of selenium (Food & Nutrition Handbook) [1]. It can be used as an ingredient for enriched porridges (Food & Nutrition Handbook) [2] and (Food & Nutrition Handbook) [3].
     """,
+    generate_content_config=types.GenerateContentConfig(
+        temperature=2.0,
+        #top_p=0.9,
+        top_p=0.5,
+        max_output_tokens=512
+    ),
     before_agent_callback=before_agent_callback,
     after_agent_callback=after_agent_callback,
     before_model_callback=before_model_callback,

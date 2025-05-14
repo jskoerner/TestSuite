@@ -23,9 +23,13 @@ def load_questions_from_csv(csv_path):
     return questions
 
 # Load questions from prompts.csv (relative to this folder)
+#QUESTIONS = load_questions_from_csv("data/test_prompts_300.csv")
 QUESTIONS = load_questions_from_csv("data/prompts.csv")
-
-OUTPUT_FILE = "batch_test_results.json"
+#QUESTIONS = load_questions_from_csv("data/stress_test_prompts.csv")
+#QUESTIONS = load_questions_from_csv("data/additional_test_prompts.csv")
+# Generate output file name with timestamp
+now_str = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+OUTPUT_FILE = f"batch_test_results_{now_str}.json"
 
 
 def create_session():
@@ -38,6 +42,7 @@ def create_session():
 def send_question(session_id, question):
     url = f"{BASE_URL}/run"
     payload = {
+
         "app_name": APP_NAME,
         "user_id": USER_ID,
         "session_id": session_id,
@@ -71,6 +76,7 @@ def main():
 
 
             answer = ""
+            initial_answer = None
             retriever_confidence = None
             original_message = None
             enhanced_message = None
@@ -84,6 +90,8 @@ def main():
                         if part.get("text"):
                             answer = part["text"]
                 state = event.get("actions", {}).get("state_delta", {})
+                if "initial_answer" in state:
+                    initial_answer = state["initial_answer"]
                 if "retriever_confidence" in state and state["retriever_confidence"] is not None:
                     retriever_confidence = state["retriever_confidence"]
                 if "original_user_message" in state and state["original_user_message"] is not None:
@@ -109,11 +117,12 @@ def main():
             }
             results.append({
                 "question": question,
-                "answer": answer,
+                "initial_answer": initial_answer,
+                "final_answer": answer,
                 "state": state_info,
                 "timing": timing_info
             })
-            print(f"Q: {question}\nA: {answer}\nConfidence: {retriever_confidence}\nElapsed: {elapsed:.2f}s\n---")
+            print(f"Q: {question}\nInitial A: {initial_answer}\nFinal A: {answer}\nConfidence: {retriever_confidence}\nElapsed: {elapsed:.2f}s\n---")
         except Exception as e:
             print(f"Error processing question '{question}': {e}")
             results.append({

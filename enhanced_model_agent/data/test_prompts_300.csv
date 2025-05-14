@@ -1,0 +1,301 @@
+prompt,target_answer,in_context
+Name one dietary source of vitamin A mentioned in the handbook.,orange‑fleshed sweet potatoes,True
+Name one dietary source of vitamin B1 (thiamin) mentioned in the handbook.,whole‑grain cereals,True
+Name one dietary source of vitamin B2 (riboflavin) mentioned in the handbook.,liver,True
+Name one dietary source of vitamin B12 mentioned in the handbook.,meat or fish,True
+Name one dietary source of vitamin C mentioned in the handbook.,citrus fruits such as oranges,True
+Name one dietary source of vitamin D mentioned in the handbook.,sunlight‑exposed skin or fortified foods,True
+Name one dietary source of vitamin E mentioned in the handbook.,vegetable oils like sunflower oil,True
+Name one dietary source of vitamin K mentioned in the handbook.,dark‑green leafy vegetables,True
+"According to the handbook, which food is highlighted as a good source of iron?",red meat,True
+"According to the handbook, which food is highlighted as a good source of iodine?",iodized salt,True
+"According to the handbook, which food is highlighted as a good source of calcium?",milk,True
+"According to the handbook, which food is highlighted as a good source of zinc?",oysters,True
+"According to the handbook, which food is highlighted as a good source of selenium?",whole‑grain cereals,True
+"According to the handbook, which food is highlighted as a good source of potassium?",bananas,True
+"According to the handbook, which food is highlighted as a good source of magnesium?",nuts,True
+"According to the handbook, which food is highlighted as a good source of fluoride?",fluoridated water,True
+Is millet classified as a 'GO' energy‑giving food in the handbook? (yes/no),yes,True
+Is maize meal classified as a 'GO' energy‑giving food in the handbook? (yes/no),yes,True
+Is cassava classified as a 'GO' energy‑giving food in the handbook? (yes/no),yes,True
+Is Irish potatoes classified as a 'GO' energy‑giving food in the handbook? (yes/no),yes,True
+Is sunflower oil classified as a 'GO' energy‑giving food in the handbook? (yes/no),yes,True
+Is beef listed as a 'GROW' body‑building food in the handbook? (yes/no),yes,True
+Is eggs listed as a 'GROW' body‑building food in the handbook? (yes/no),yes,True
+Is milk listed as a 'GROW' body‑building food in the handbook? (yes/no),yes,True
+Is silverfish (mukene) listed as a 'GROW' body‑building food in the handbook? (yes/no),yes,True
+Is soybeans listed as a 'GROW' body‑building food in the handbook? (yes/no),yes,True
+Does the handbook consider spinach a 'GLOW' protective food? (yes/no),yes,True
+Does the handbook consider carrots a 'GLOW' protective food? (yes/no),yes,True
+Does the handbook consider mangoes a 'GLOW' protective food? (yes/no),yes,True
+Does the handbook consider pumpkin seeds a 'GLOW' protective food? (yes/no),yes,True
+Does the handbook consider guavas a 'GLOW' protective food? (yes/no),yes,True
+What visual tool does the handbook use to illustrate balanced food group proportions?,Food pyramid,True
+"List two points to consider while planning a meal, according to the handbook.","e.g., family income; food availability/season",True
+Is 'inadequate dietary intake' listed as an immediate cause of malnutrition in the handbook? (yes/no),yes,True
+Is 'infection and diseases such as malaria' listed as an immediate cause of malnutrition in the handbook? (yes/no),yes,True
+Is 'low intake of vitamin C' listed as an immediate cause of malnutrition in the handbook? (yes/no),yes,True
+Is 'food insecurity' listed as an immediate cause of malnutrition in the handbook? (yes/no),yes,True
+Is 'household food insecurity' identified as an underlying cause of malnutrition in the handbook? (yes/no),yes,True
+Is 'poor access to healthcare' identified as an underlying cause of malnutrition in the handbook? (yes/no),yes,True
+Is 'inadequate maternal and childcare' identified as an underlying cause of malnutrition in the handbook? (yes/no),yes,True
+Is 'poor water and sanitation' identified as an underlying cause of malnutrition in the handbook? (yes/no),yes,True
+Does the handbook mention 'hand washing before eating' as a key WASH practice? (yes/no),yes,True
+Does the handbook mention 'using clean utensils' as a key WASH practice? (yes/no),yes,True
+Does the handbook mention 'proper refuse disposal' as a key WASH practice? (yes/no),yes,True
+Does the handbook mention 'access to safe water' as a key WASH practice? (yes/no),yes,True
+Is 'kitchen gardening' highlighted as a nutrition‑sensitive agricultural practice in the handbook? (yes/no),yes,True
+Is 'intercropping legumes to fix nitrogen' highlighted as a nutrition‑sensitive agricultural practice in the handbook? (yes/no),yes,True
+Is 'using labour‑saving technologies' highlighted as a nutrition‑sensitive agricultural practice in the handbook? (yes/no),yes,True
+Is 'promoting biofortified crops like OFSP' highlighted as a nutrition‑sensitive agricultural practice in the handbook? (yes/no),yes,True
+True or false: The handbook recommends 'exclusive breastfeeding for six months'.,true,True
+True or false: The handbook recommends 'breastfeed 8‑12 times per day'.,true,True
+True or false: The handbook recommends 'continue breastfeeding up to 2 years'.,true,True
+"What is the recommended addition to porridge to improve its protein content, according to Annex 3?",eggs or milk,True
+Which insect is promoted as a protein source in the handbook?,grasshoppers or termites,True
+"Which group ('GO','GROW','GLOW') does millet belong to?",GO,True
+"Which group ('GO','GROW','GLOW') does maize meal belong to?",GO,True
+"Which group ('GO','GROW','GLOW') does cassava belong to?",GO,True
+"Which group ('GO','GROW','GLOW') does Irish potatoes belong to?",GO,True
+"Which group ('GO','GROW','GLOW') does sunflower oil belong to?",GO,True
+"Which group ('GO','GROW','GLOW') does spinach belong to?",GLOW,True
+"Which group ('GO','GROW','GLOW') does carrots belong to?",GLOW,True
+"Which group ('GO','GROW','GLOW') does mangoes belong to?",GLOW,True
+"Which group ('GO','GROW','GLOW') does pumpkin seeds belong to?",GLOW,True
+"Which group ('GO','GROW','GLOW') does guavas belong to?",GLOW,True
+"Which group ('GO','GROW','GLOW') does beef belong to?",GROW,True
+"Which group ('GO','GROW','GLOW') does eggs belong to?",GROW,True
+"Which group ('GO','GROW','GLOW') does milk belong to?",GROW,True
+"Which group ('GO','GROW','GLOW') does silverfish (mukene) belong to?",GROW,True
+"Which group ('GO','GROW','GLOW') does soybeans belong to?",GROW,True
+Does the handbook recommend the Paleo diet for pregnant women?,Not in handbook,False
+Is chocolate listed as a protective 'GLOW' food in the handbook?,Not in handbook,False
+Does the handbook suggest intermittent fasting for children under five?,Not in handbook,False
+Is quinoa classified as a staple cereal in the handbook?,Not in handbook,False
+Does the handbook advise replacing water with energy drinks for hydration?,Not in handbook,False
+Is avocado oil listed as a saturated fat source in the handbook?,Not in handbook,False
+Is vitamin H discussed in the handbook? (yes/no),no,False
+Is vitamin P discussed in the handbook? (yes/no),no,False
+Is mineral kryptonite discussed in the handbook? (yes/no),no,False
+Is element unobtanium discussed in the handbook? (yes/no),no,False
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
+What food processing practice helps prevent aflatoxin contamination according to the handbook?,proper post‑harvest drying,True
+Which small livestock animal is suggested for backyard rearing to improve household protein intake?,rabbits or poultry,True
+What does the acronym WASH stand for?,"water, sanitation and hygiene",True
+What is one immediate consequence of malnutrition mentioned in the handbook?,mortality or morbidity,True
