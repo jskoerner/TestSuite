@@ -10,15 +10,16 @@ def flatten(d, parent_key='', sep='.'):
         else:
             yield new_key, v
 
-def infer_agent_from_filename(filename):
-    # Look for agent name in the filename (case-insensitive)
-    match = re.search(r'(baseline_agent|rag_agent|cot_agent)', filename, re.IGNORECASE)
-    if match:
-        return match.group(1).lower()
-    return 'unknown'
+def infer_agent_from_filepath(filepath):
+    # Get the parent directory name as the agent name
+    path = pathlib.Path(filepath)
+    parent = path.parent.name.lower()
+    if parent in {"baseline_agent", "rag_agent", "cot_agent"}:
+        return parent
+    return "unknown"
 
 def main(infile, outfile):
-    agent = infer_agent_from_filename(str(infile))
+    agent = infer_agent_from_filepath(str(infile))
     with open(infile, encoding="utf-8") as f:
         records = json.load(f)
 
