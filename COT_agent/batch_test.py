@@ -4,10 +4,12 @@ import json
 from datetime import datetime
 import uuid
 import csv
+import os
 
 # Configuration
-BASE_URL = "http://localhost:8000"  # Update if needed
-APP_NAME = "baseline_agent"
+BASE_URL = os.getenv("BASE_URL", "https://dietitian-api-411547369.us-central1.run.app")
+#BASE_URL="http://localhost:8000" python COT_agent/batch_test.py
+APP_NAME = "COT_agent"
 USER_ID = "test1"
 
 def load_questions_from_csv(csv_path):
@@ -23,8 +25,9 @@ def load_questions_from_csv(csv_path):
     return questions
 
 # Load questions from prompts.csv (relative to this folder)
-#QUESTIONS = load_questions_from_csv("data/prompts.csv")
-QUESTIONS = load_questions_from_csv("data/stress_test_prompts.csv")
+QUESTIONS = load_questions_from_csv("data/prompts.csv")
+#QUESTIONS = load_questions_from_csv("data/stress_test_prompts.csv")
+#QUESTIONS = load_questions_from_csv("data/additional_test_prompts.csv")
 
 # Generate output file name with timestamp
 now_str = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
@@ -74,20 +77,27 @@ def main():
 
             answer = ""
             initial_answer = None
+            retriever_confidence = None
             original_message = None
+            enhanced_message = None
             answer_flagged = None
             flagged_reasons = None
+            
             # The response is a list of events, we need to find the one with the model's response
             for event in response:
                 if event.get("content") and event["content"].get("parts"):
                     for part in event["content"]["parts"]:
                         if part.get("text"):
-                            if initial_answer is None:
-                                initial_answer = part["text"]
                             answer = part["text"]
                 state = event.get("actions", {}).get("state_delta", {})
+                if "initial_answer" in state:
+                    initial_answer = state["initial_answer"]
+                if "retriever_confidence" in state and state["retriever_confidence"] is not None:
+                    retriever_confidence = state["retriever_confidence"]
                 if "original_user_message" in state and state["original_user_message"] is not None:
                     original_message = state["original_user_message"]
+                if "enhanced_message" in state and state["enhanced_message"] is not None:
+                    enhanced_message = state["enhanced_message"]
                 if "answer_flagged" in state:
                     answer_flagged = state["answer_flagged"]
                 if "flagged_reasons" in state:
@@ -99,7 +109,9 @@ def main():
                 "elapsed": elapsed
             }
             state_info = {
+                "retriever_confidence": retriever_confidence,
                 "original_message": original_message,
+                "enhanced_message": enhanced_message,
                 "answer_flagged": answer_flagged,
                 "flagged_reasons": flagged_reasons
             }
@@ -110,7 +122,7 @@ def main():
                 "state": state_info,
                 "timing": timing_info
             })
-            print(f"Q: {question}\nInitial A: {initial_answer}\nFinal A: {answer}\nElapsed: {elapsed:.2f}s\n---")
+            print(f"Q: {question}\nInitial A: {initial_answer}\nFinal A: {answer}\nConfidence: {retriever_confidence}\nElapsed: {elapsed:.2f}s\n---")
         except Exception as e:
             print(f"Error processing question '{question}': {e}")
             results.append({
