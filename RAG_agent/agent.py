@@ -15,7 +15,7 @@ from google.genai import types
 from .rag.retriever import Retriever
 
 retriever = Retriever(
-    csv_path="enhanced_model_agent/data/embeddings.csv",
+    csv_path="RAG_agent/data/embeddings.csv",
     model_name="BAAI/bge-large-en-v1.5"
 )
 
@@ -169,9 +169,9 @@ def after_model_callback(
 
 # Create the Agent
 root_agent = LlmAgent(
-    name="enhanced_model_agent",
+    name="RAG_agent",
     model="gemini-2.0-flash",
-    description="An agent that demonstrates both before and after model callbacks",
+    description="A Dietitian RAG agent that uses the context to answer the user question.",
     instruction="""
     You are a helpful, empathetic, and positive assistant.
 

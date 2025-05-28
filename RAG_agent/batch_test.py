@@ -7,7 +7,7 @@ import csv
 
 # Configuration
 BASE_URL = "http://localhost:8000"  # Update if needed
-APP_NAME = "enhanced_model_agent"
+APP_NAME = "RAG_agent"
 USER_ID = "test1"
 
 def load_questions_from_csv(csv_path):
