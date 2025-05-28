@@ -4,9 +4,11 @@ import json
 from datetime import datetime
 import uuid
 import csv
+import os
 
 # Configuration
-BASE_URL = "http://localhost:8000"  # Update if needed
+BASE_URL = os.getenv("BASE_URL", "https://dietitian-api-411547369.us-central1.run.app")
+#BASE_URL="http://localhost:8000" python RAG_agent/batch_test.py
 APP_NAME = "RAG_agent"
 USER_ID = "test1"
 
