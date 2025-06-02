@@ -67,6 +67,15 @@ def main():
     session_id = create_session()
     print(f"Created session: {session_id}")
 
+    # Send a warm-up query to handle cold starts
+    print("Sending warm-up query...")
+    try:
+        warm_up_response = send_question(session_id, "hello")
+        print("Warm-up complete.")
+    except Exception as e:
+        print(f"Warm-up query failed: {e}")
+    
+    # Now process the actual questions
     for question in QUESTIONS:
         agent_start = time.time()
         agent_start_iso = datetime.utcnow().isoformat() + "Z"

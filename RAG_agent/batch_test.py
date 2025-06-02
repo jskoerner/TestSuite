@@ -25,13 +25,17 @@ def load_questions_from_csv(csv_path):
     return questions
 
 # Load questions from prompts.csv (relative to this folder)
-#QUESTIONS = load_questions_from_csv("data/test_prompts_300.csv")
-QUESTIONS = load_questions_from_csv("data/prompts.csv")
+#INPUT_CSV = "data/modified_prompts.csv"  # Define input file as a variable
+INPUT_CSV = "data/prompts.csv"  # Define input file as a variable
+QUESTIONS = load_questions_from_csv(INPUT_CSV)
 #QUESTIONS = load_questions_from_csv("data/stress_test_prompts.csv")
 #QUESTIONS = load_questions_from_csv("data/additional_test_prompts.csv")
-# Generate output file name with timestamp
+
+# Generate output file name based on agent name and input file
+agent_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))  # Get parent directory name
+csv_name = os.path.splitext(os.path.basename(INPUT_CSV))[0]  # Get filename without extension
 now_str = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-OUTPUT_FILE = f"batch_test_results_{now_str}.json"
+OUTPUT_FILE = f"{agent_name}_{csv_name}_batch_{now_str}.json"
 
 
 def create_session():
@@ -66,6 +70,15 @@ def main():
     session_id = create_session()
     print(f"Created session: {session_id}")
 
+    # Send a warm-up query to handle cold starts
+    print("Sending warm-up query...")
+    try:
+        warm_up_response = send_question(session_id, "hello")
+        print("Warm-up complete.")
+    except Exception as e:
+        print(f"Warm-up query failed: {e}")
+    
+    # Now process the actual questions
     for question in QUESTIONS:
         agent_start = time.time()
         agent_start_iso = datetime.utcnow().isoformat() + "Z"
