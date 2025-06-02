@@ -47,23 +47,11 @@ def cleanup_old_files():
 
 
 def convert_json_to_csv(json_file):
-    """Convert a JSON result file to CSV using json_to_csv.py."""
+    """Convert JSON results to CSV format."""
     csv_file = json_file.replace('.json', '.csv')
-    try:
-        # Run the json_to_csv.py script
-        result = subprocess.run(
-            [sys.executable, 'json_to_csv.py', json_file, csv_file],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        print(f"  Converted to CSV: {csv_file}")
-        return csv_file
-    except subprocess.CalledProcessError as e:
-        print(f"  Error converting to CSV: {e}")
-        if e.stderr:
-            print(f"  Error details: {e.stderr}")
-        return None
+    subprocess.run(['python', 'json_to_csv.py', json_file, csv_file], check=True)
+    print(f"Converted {json_file} to {csv_file}")
+    return csv_file
 
 
 def load_questions_from_csv(csv_path):

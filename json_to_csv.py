@@ -14,7 +14,7 @@ def infer_agent_from_filepath(filepath):
     # Get the parent directory name as the agent name
     path = pathlib.Path(filepath)
     parent = path.parent.name.lower()
-    if parent in {"baseline_agent", "rag_agent", "cot_agent"}:
+    if parent in {"baseline_agent", "rag_agent", "cot_agent", "nli_filtered_agent"}:
         return parent
     return "unknown"
 

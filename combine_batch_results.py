@@ -29,9 +29,8 @@ def combine_csv_files(prompt_type):
             try:
                 # Read the CSV file
                 df = pd.read_csv(latest_file)
-                # Add agent column if not already present
-                if 'agent' not in df.columns:
-                    df['agent'] = agent
+                # Ensure the agent column is set correctly
+                df['agent'] = agent
                 all_dataframes.append(df)
                 file_count += 1
             except Exception as e:
