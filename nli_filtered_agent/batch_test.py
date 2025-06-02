@@ -8,8 +8,8 @@ import os
 
 # Configuration
 BASE_URL = os.getenv("BASE_URL", "https://dietitian-api-411547369.us-central1.run.app")
-#BASE_URL="http://localhost:8000" python baseline_agent/batch_test.py
-APP_NAME = "baseline_agent"
+#BASE_URL="http://localhost:8000" python COT_agent/batch_test.py
+APP_NAME = "nli_filtered_agent"
 USER_ID = "test1"
 
 def load_questions_from_csv(csv_path):
@@ -25,15 +25,13 @@ def load_questions_from_csv(csv_path):
     return questions
 
 # Load questions from prompts.csv (relative to this folder)
-#INPUT_CSV = "data/modified_prompts.csv"  # Define input file as a variable
-INPUT_CSV = "data/prompts.csv"  # Define input file as a variable
-QUESTIONS = load_questions_from_csv(INPUT_CSV)
+QUESTIONS = load_questions_from_csv("data/prompts.csv")
+#QUESTIONS = load_questions_from_csv("data/stress_test_prompts.csv")
+#QUESTIONS = load_questions_from_csv("data/additional_test_prompts.csv")
 
-# Generate output file name based on agent name and input file
-agent_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))  # Get parent directory name
-csv_name = os.path.splitext(os.path.basename(INPUT_CSV))[0]  # Get filename without extension
+# Generate output file name with timestamp
 now_str = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-OUTPUT_FILE = f"{agent_name}_{csv_name}_batch_{now_str}.json"
+OUTPUT_FILE = f"batch_test_results_{now_str}.json"
 
 
 def create_session():
