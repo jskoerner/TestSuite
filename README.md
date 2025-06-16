@@ -133,13 +133,16 @@ This detailed state information allows for a transparent analysis of how each ag
 Here are some screenshots illustrating the application's interface and functionality:
 
 ### RAG Agent Interface
-![RAG Agent Interface](images/image1.png)
+![RAG Agent Interface](images/image_rag.png)
+
+### CoT Agent Interaction
+![NLI Filtered Agent Interaction](images/image_cot.png)
 
 ### NLI Filtered Agent Interaction
-![NLI Filtered Agent Interaction](images/image2.png)
+![NLI Filtered Agent Interaction](images/image_nli.png)
 
 ### Agent State Section
-![Agent State Section](images/image3.png)
+![Agent State Section](images/image_state.png)
 
 
 
